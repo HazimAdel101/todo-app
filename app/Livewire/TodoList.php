@@ -24,9 +24,14 @@ class TodoList extends Component
 
         session()->flash('success', 'Todo created successfully');
     }
+
+    public function delete(Todo $id){
+        $id->delete();
+    }
+
     public function render()
     {
-        $todos = Todo::latest()->paginate(5);
+        $todos = Todo::latest()->where('name', 'like', "%{$this->search}%")->paginate(5);
 
         return view('livewire.todo-list', compact('todos'));
     }
