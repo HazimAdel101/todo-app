@@ -28,9 +28,15 @@ class TodoList extends Component
         session()->flash('success', 'Todo created successfully');
     }
 
-    public function delete(Todo $id)
+    public function delete( $id)
     {
-        $id->delete();
+        try{
+            Todo::findOrFail($id)->delete();
+        }
+        catch(\Exception $e){
+            session()->flash('error', 'Failed to delete');
+            return;
+        }
     }
 
     public function togglechecked($id)
